@@ -1,79 +1,285 @@
-<section id="main-structure-equation">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Quantum Origami & Standard Model</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- MathJax for LaTeX rendering -->
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(','\\)'], ['$', '$']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem;
+      line-height: 1.6;
+    }
+    h1, h2, h3 {
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      font-size: 0.95rem;
+    }
+    table th, table td {
+      border: 1px solid #ccc;
+      padding: 0.5rem 0.75rem;
+      text-align: left;
+      vertical-align: top;
+    }
+    table thead {
+      background: #f2f2f2;
+    }
+    pre {
+      font-family: "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+  </style>
+</head>
+<body>
 
-<h2>Main Structure Equation (Quantum Origami)</h2>
+<h1>Quantum Origami & Standard Model</h1>
 
-<h3>CORE STRUCTURE</h3>
+<section id="main-structure">
 
-<p>
-In Quantum Origami, the entire universe is constructed from flat two-dimensional 
-energy sheets \(P_i\), each carrying a finite crease pattern and signed fold angles. 
-Each sheet is rigidly folded by a map
-</p>
+  <h2>Main Structure Equation</h2>
 
-<p>
+  <h3>Core Structure</h3>
 
+  <p>
+    Quantum Origami models the universe as an assembly of folded two-dimensional energy sheets.
+    Each sheet \(P_i\) carries a finite crease pattern \(C_i\) and signed fold angles \(\Theta_i\).
+    It is folded into three-dimensional space by a map \(F_i\) and positioned by a rigid motion \(T_i\).
+  </p>
+
+  <p>
+    
 
 \[
-F_i : P_i \rightarrow \mathbb{R}^3,
-\]
+    \boxed{
+      C = \bigcup_{i=1}^{N} T_i\!\left(F_i(P_i)\right)
+    }
+    \]
 
 
-</p>
+  </p>
 
-<p>
-and placed in three-dimensional space by a rigid motion
-</p>
+  <p>
+    This single equation defines the global geometric configuration of the universe in the Quantum Origami framework.
+  </p>
 
-<p>
+  <h3>Structural Components</h3>
 
+  <table>
+    <thead>
+      <tr>
+        <th>Symbol</th>
+        <th>Definition</th>
+        <th>Role</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>\(P_i\)</td>
+        <td>Two-dimensional energy sheet in \(\mathbb{R}^2\)</td>
+        <td>Base geometric object</td>
+      </tr>
+      <tr>
+        <td>\(C_i\)</td>
+        <td>Finite crease pattern on \(P_i\)</td>
+        <td>Defines fold geometry</td>
+      </tr>
+      <tr>
+        <td>\(\Theta_i\)</td>
+        <td>Signed fold-angle vector \((\Theta_{i,1},\dots,\Theta_{i,K_i})\)</td>
+        <td>Controls curvature, mass, and motif type</td>
+      </tr>
+      <tr>
+        <td>\(F_i(P_i)\)</td>
+        <td>Folded three-dimensional module in \(\mathbb{R}^3\)</td>
+        <td>Rigidly folded shape in space</td>
+      </tr>
+      <tr>
+        <td>\(T_i\)</td>
+        <td>Rigid motion in \(SE(3)\)</td>
+        <td>Placement of module in the universe</td>
+      </tr>
+      <tr>
+        <td>\(C\)</td>
+        <td>Global configuration \(\bigcup_i T_i(F_i(P_i))\)</td>
+        <td>The entire universe</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Conceptual Flow Graph</h3>
+
+  <pre style="background:#f4f4f4; padding:1em; border-radius:6px;">
+P_i  ──►  (creases C_i, angles Θ_i)  ──►  F_i(P_i)  ──►  T_i(F_i(P_i))  ──►  C
+  </pre>
+
+  <p>
+    This graph shows how sheets become modules through folding, and how modules assemble into the global configuration \(C\)
+    through rigid placement.
+  </p>
+
+  <h3>Geometric Quantities</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Quantity</th>
+        <th>Equation</th>
+        <th>Meaning</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Crease Density</td>
+        <td>
+          
 
 \[
-T_i \in SE(3).
-\]
+          P_{\text{crease}}(x) =
+          \lim_{r\to 0^+}
+          \frac{\#\{(i,m) : l_{i,m} \cap B_r(x) \neq \emptyset\}}{\mathrm{vol}(B_r(x))}
+          \]
 
 
-</p>
-
-<p>
-The global configuration of the universe is simply the union of all folded and 
-placed modules:
-</p>
-
-<p>
-
-
-\[
-\boxed{
-C = \bigcup_{i=1}^{N} T_i\!\left(F_i(P_i)\right)
-}
-\]
-
-
-</p>
-
-<h3>Why the main structure equation is this simple</h3>
-
-<p>
-Quantum Origami is a geometric theory, not a field theory. There are no gauge 
-fields, potentials, or covariant derivatives. All physical quantities—mass, 
-curvature, forces, matter, antimatter—emerge directly from the geometry of the 
-folds themselves. Because the physics is encoded in the crease patterns, fold 
-angles, and rigid placements, the universe reduces to a single structural equation:
-</p>
-
-<p>
-
+        </td>
+        <td>Local concentration of folds near point \(x\)</td>
+      </tr>
+      <tr>
+        <td>Fold Energy</td>
+        <td>
+          
 
 \[
-C = \bigcup_{i=1}^{N} T_i(F_i(P_i)).
-\]
+          E_{i,m} = k_m \, |\Theta_{i,m}|
+          \]
 
 
-</p>
+        </td>
+        <td>Elastic energy stored in crease \(m\) on sheet \(i\)</td>
+      </tr>
+      <tr>
+        <td>Module Mass</td>
+        <td>
+          
 
-<p>
-This one expression captures the entire architecture of the universe: every sheet, 
-every fold, every module, and every interaction arises from this geometric assembly.
-</p>
+\[
+          M_i = \sum_{m=1}^{K_i} k_m \, |\Theta_{i,m}|
+          \]
+
+
+        </td>
+        <td>Effective mass of module \(M_i\) from its fold angles</td>
+      </tr>
+      <tr>
+        <td>Geometric Entropy</td>
+        <td>
+          
+
+\[
+          S_{\text{geom}} = \sum_{i,m} |\Theta_{i,m}|
+          \]
+
+
+        </td>
+        <td>Measure of crumpling and information content in the angle field</td>
+      </tr>
+      <tr>
+        <td>Gravitational Field</td>
+        <td>
+          
+
+\[
+          g(x) = -\nabla P_{\text{crease}}(x)
+          \]
+
+
+        </td>
+        <td>Objects fall toward regions of higher crease density</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Physical Interpretation</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Physics Concept</th>
+        <th>Origami Interpretation</th>
+        <th>Key Relation</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Mass</td>
+        <td>Sum of fold energies on a module</td>
+        <td>\(M_i = \sum_m k_m |\Theta_{i,m}|\)</td>
+      </tr>
+      <tr>
+        <td>Charge</td>
+        <td>Net sign of fold angles on a sheet</td>
+        <td>\(Q_i = \sum_m \mathrm{sgn}(\Theta_{i,m})\)</td>
+      </tr>
+      <tr>
+        <td>Electromagnetism</td>
+        <td>Sign patterns and adjacency of modules</td>
+        <td>\(Q_i\) and local \(\Theta_{i,m}\)</td>
+      </tr>
+      <tr>
+        <td>Strong Force</td>
+        <td>Interlocking high-density crease regions</td>
+        <td>Large \(P_{\text{crease}}(x)\), shared crease patterns \(C_i\)</td>
+      </tr>
+      <tr>
+        <td>Weak Force</td>
+        <td>Local angle-flip transitions</td>
+        <td>\(\Theta_{i,m} \to -\Theta_{i,m}\)</td>
+      </tr>
+      <tr>
+        <td>Gravity</td>
+        <td>Gradient of crease density</td>
+        <td>\(g(x) = -\nabla P_{\text{crease}}(x)\)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Why the Main Structure Equation Is Enough</h3>
+
+  <p>
+    All of these quantities—mass, charge, forces, curvature, entropy—are derived from the geometry of the folds and placements.
+    Because the physics is encoded directly in the crease patterns \(C_i\), angle vectors \(\Theta_i\), folding maps \(F_i\), and
+    rigid motions \(T_i\), the entire universe reduces to the single structural equation
+  </p>
+
+  <p>
+    
+
+\[
+    C = \bigcup_{i=1}^{N} T_i(F_i(P_i)).
+    \]
+
+
+  </p>
+
+  <p>
+    A reader can reconstruct the full Quantum Origami framework from this section: the objects, the geometry, and the emergent
+    physics are all contained in the tables, graphs, and equations above.
+  </p>
 
 </section>
+
+</body>
+</html>
