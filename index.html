@@ -1,66 +1,462 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Quantum Origami</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 40px;
-      background: #f5f5f5;
-      color: #222;
-    }
-    header {
-      margin-bottom: 40px;
-    }
-    h1 {
-      font-size: 2.5em;
-      color: #333;
-    }
-    p {
-      font-size: 1.2em;
-      line-height: 1.6em;
-    }
-    .section {
-      background: white;
-      padding: 25px;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      margin-bottom: 30px;
-    }
-    footer {
-      margin-top: 50px;
-      font-size: 0.9em;
-      color: #666;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>Quantum Origami</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+/* GLOBAL THEME */
+:root {
+  --bg: #050816;
+  --panel: #0f172a;
+  --accent: #38bdf8;
+  --accent-soft: #1d4ed8;
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+  --danger: #ef4444;
+  --success: #22c55e;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: radial-gradient(circle at top, #1e293b 0, #020617 55%);
+  color: var(--text);
+}
+
+/* HEADER */
+header {
+  background: linear-gradient(135deg, #0f172a, #020617);
+  padding: 24px 32px;
+  border-bottom: 1px solid #1f2937;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.brand-logo {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: conic-gradient(from 180deg, #38bdf8, #a855f7, #22c55e, #38bdf8);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 20px rgba(56,189,248,0.6);
+}
+.brand-logo span {
+  font-weight: 800; font-size: 20px; color: #0f172a;
+}
+.brand-text h1 {
+  margin: 0; font-size: 22px; letter-spacing: 0.06em; text-transform: uppercase;
+}
+.brand-text p {
+  margin: 2px 0 0; font-size: 13px; color: var(--muted);
+}
+
+/* NAV */
+nav {
+  margin-top: 16px;
+  display: flex; flex-wrap: wrap; gap: 12px;
+}
+nav a {
+  color: var(--text);
+  text-decoration: none;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid #1f2937;
+  background: rgba(15,23,42,0.8);
+  font-size: 14px;
+  transition: 0.2s;
+}
+nav a:hover {
+  border-color: var(--accent);
+  background: rgba(15,23,42,1);
+  box-shadow: 0 0 12px rgba(56,189,248,0.4);
+  transform: translateY(-1px);
+}
+
+/* PANELS */
+main {
+  max-width: 960px;
+  margin: 32px auto 40px;
+  padding: 0 16px;
+}
+.panel {
+  background: rgba(15,23,42,0.95);
+  border-radius: 18px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 20px 40px rgba(15,23,42,0.9), 0 0 0 1px rgba(31,41,55,0.9);
+}
+.panel-header {
+  display: flex; justify-content: space-between; align-items: baseline;
+}
+.panel-header h2 {
+  margin: 0; font-size: 20px; color: var(--accent);
+}
+.panel-header span {
+  font-size: 13px; color: var(--muted);
+}
+
+/* TABLE */
+table {
+  width: 100%; border-collapse: collapse; margin-top: 14px;
+}
+th, td {
+  padding: 10px 8px; border-bottom: 1px solid #1f2937;
+}
+th {
+  background: #020617; color: var(--accent); text-align: left;
+}
+tr:nth-child(even) td {
+  background: rgba(15,23,42,0.7);
+}
+
+/* GRAPH */
+.graph-wrapper {
+  margin-top: 18px;
+  background: #020617;
+  border-radius: 14px;
+  padding: 16px;
+  border: 1px solid #1f2937;
+}
+svg {
+  width: 100%; max-width: 520px; height: 220px;
+  display: block; margin: 0 auto;
+}
+.axis { stroke: #4b5563; stroke-width: 1; }
+.axis-label { fill: var(--muted); font-size: 11px; }
+.bar { fill: url(#barGradient); rx: 4; }
+.bar-label { fill: var(--text); font-size: 11px; }
+
+/* FOOTER */
+footer {
+  text-align: center; font-size: 12px; color: var(--muted);
+  padding: 18px 0 26px;
+}
+</style>
 </head>
 
 <body>
-  <header>
-    <h1>Quantum Origami</h1>
-    <p>Welcome to the official project site.</p>
-  </header>
-
-  <div class="section">
-    <h2>About the Project</h2>
-    <p>
-      Quantum Origami is an exploration of geometric folding structures as a 
-      mathematical and physical framework. This site will host documentation, 
-      diagrams, theory development, and interactive models.
-    </p>
+<header>
+  <div class="brand">
+    <div class="brand-logo"><span>QO</span></div>
+    <div class="brand-text">
+      <h1>Quantum Origami</h1>
+      <p>Geometric folding as a physical theory</p>
+    </div>
   </div>
 
-  <div class="section">
-    <h2>Status</h2>
-    <p>
-      The site is now live and functioning. Replace this placeholder content 
-      with your real project material anytime.
-    </p>
-  </div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="simple.html">Concepts</a>
+    <a href="graphs.html">Graphs</a>
+    <a href="tables.html">Data tables</a>
+  </nav>
+</header>
 
-  <footer>
-    <p>© 2026 Quantum Origami Project</p>
-  </footer>
+<main>
+  <section class="panel">
+    <div class="panel-header">
+      <h2>Project overview</h2>
+      <span>Start here</span>
+    </div>
+    <p>
+      Quantum Origami explores how discrete folding operations can encode,
+      approximate, or generate quantum behavior. This site is your working
+      surface for ideas, models, and visualizations.
+    </p>
+  </section>
+
+  <section class="panel">
+    <div class="panel-header">
+      <h2>Sample graph</h2>
+      <span>Folding vs energy</span>
+    </div>
+
+    <div class="graph-wrapper">
+      <svg>
+        <defs>
+          <linearGradient id="barGradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stop-color="#38bdf8"/>
+            <stop offset="100%" stop-color="#1d4ed8"/>
+          </linearGradient>
+        </defs>
+
+        <line class="axis" x1="40" y1="180" x2="260" y2="180"></line>
+        <line class="axis" x1="40" y1="60" x2="40" y2="180"></line>
+
+        <rect class="bar" x="60"  y="150" width="30" height="30"></rect>
+        <rect class="bar" x="110" y="135" width="30" height="45"></rect>
+        <rect class="bar" x="160" y="115" width="30" height="65"></rect>
+        <rect class="bar" x="210" y="90"  width="30" height="90"></rect>
+
+        <text class="axis-label" x="65"  y="195">15°</text>
+        <text class="axis-label" x="115" y="195">30°</text>
+        <text class="axis-label" x="165" y="195">45°</text>
+        <text class="axis-label" x="215" y="195">60°</text>
+
+        <text class="bar-label" x="62"  y="145">2.1</text>
+        <text class="bar-label" x="112" y="130">3.4</text>
+        <text class="bar-label" x="162" y="110">5.2</text>
+        <text class="bar-label" x="212" y="85">7.8</text>
+      </svg>
+    </div>
+  </section>
+</main>
+
+<footer>
+  © 2026 Quantum Origami
+</footer>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Quantum Origami · Concepts</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: radial-gradient(circle at top, #1e293b 0, #020617 55%);
+  color: #e5e7eb;
+}
+header {
+  background: linear-gradient(135deg, #0f172a, #020617);
+  padding: 24px 32px;
+}
+nav a {
+  color: #e5e7eb;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid #1f2937;
+  background: rgba(15,23,42,0.8);
+  text-decoration: none;
+  margin-right: 12px;
+}
+main {
+  max-width: 960px;
+  margin: 32px auto;
+  padding: 0 16px;
+}
+.panel {
+  background: rgba(15,23,42,0.95);
+  padding: 24px;
+  border-radius: 18px;
+  margin-bottom: 24px;
+}
+h2 { color: #38bdf8; }
+p, li { font-size: 15px; line-height: 1.7; }
+footer {
+  text-align: center;
+  padding: 20px;
+  color: #9ca3af;
+}
+</style>
+</head>
+
+<body>
+<header>
+  <h1>Quantum Origami · Concepts</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="simple.html">Concepts</a>
+    <a href="graphs.html">Graphs</a>
+    <a href="tables.html">Data tables</a>
+  </nav>
+</header>
+
+<main>
+  <section class="panel">
+    <h2>Folds as operations</h2>
+    <p>
+      In Quantum Origami, folds act like operators on a state space. A sequence
+      of folds becomes a geometric circuit.
+    </p>
+    <ul>
+      <li>Each crease defines a reflection or rotation.</li>
+      <li>Layering folds encodes compositions.</li>
+      <li>Sequences behave like gates.</li>
+    </ul>
+  </section>
+
+  <section class="panel">
+    <h2>Discrete vs continuous</h2>
+    <p>
+      Origami is discrete. Quantum mechanics is continuous. Their tension is
+      where the interesting math lives.
+    </p>
+  </section>
+</main>
+
+<footer>
+  © 2026 Quantum Origami
+</footer>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Quantum Origami · Graphs</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: radial-gradient(circle at top, #1e293b 0, #020617 55%);
+  color: #e5e7eb;
+}
+header {
+  background: linear-gradient(135deg, #0f172a, #020617);
+  padding: 24px 32px;
+}
+nav a {
+  color: #e5e7eb;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid #1f2937;
+  background: rgba(15,23,42,0.8);
+  text-decoration: none;
+  margin-right: 12px;
+}
+main {
+  max-width: 960px;
+  margin: 32px auto;
+  padding: 0 16px;
+}
+.panel {
+  background: rgba(15,23,42,0.95);
+  padding: 24px;
+  border-radius: 18px;
+  margin-bottom: 24px;
+}
+h2 { color: #38bdf8; }
+.graph-wrapper {
+  margin-top: 18px;
+  background: #020617;
+  border-radius: 14px;
+  padding: 16px;
+  border: 1px solid #1f2937;
+}
+svg {
+  width: 100%; max-width: 520px; height: 220px;
+  display: block; margin: 0 auto;
+}
+.axis { stroke: #4b5563; stroke-width: 1; }
+.axis-label { fill: #9ca3af; font-size: 11px; }
+.line { fill: none; stroke: #38bdf8; stroke-width: 2; }
+.point { fill: #38bdf8; }
+footer {
+  text-align: center;
+  padding: 20px;
+  color: #9ca3af;
+}
+</style>
+</head>
+
+<body>
+<header>
+  <h1>Quantum Origami · Graphs</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="simple.html">Concepts</a>
+    <a href="graphs.html">Graphs</a>
+    <a href="tables.html">Data tables</a>
+  </nav>
+</header>
+
+<main>
+  <section class="panel">
+    <h2>Fold depth vs complexity</h2>
+    <div class="graph-wrapper">
+      <svg>
+        <line class="axis" x1="40" y1="180" x2="260" y2="180"></line>
+        <line class="axis" x1="40" y1="60" x2="40" y2="180"></line>
+
+        <polyline class="line"
+          points="50,160 90,145 130,130 170,110 210,90" />
+
+        <circle class="point" cx="50" cy="160" r="3"></circle>
+        <circle class="point" cx="90" cy="145" r="3"></circle>
+        <circle class="point" cx="130" cy="130" r="3"></circle>
+        <circle class="point" cx="170" cy="110" r="3"></circle>
+        <circle class="point" cx="210" cy="90"  r="3"></circle>
+
+        <text class="axis-label" x="50"  y="195">1 fold</text>
+        <text class="axis-label" x="90"  y="195">2 folds</text>
+        <text class="axis-label" x="130" y="195">3 folds</text>
+        <text class="axis-label" x="170" y="195">4 folds</text>
+        <text class="axis-label" x="210" y="195">5 folds</text>
+
+        <text class="axis-label" x="10" y="70" transform="rotate(-90 10 70)">
+          complexity
+        </text>
+      </svg>
+    </div>
+  </section>
+</main>
+
+<footer>
+  © 2026 Quantum Origami
+</footer>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Quantum Origami · Data tables</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: radial-gradient(circle at top, #1e293b 0, #020617 55%);
+  color: #e5e7eb;
+}
+header {
+  background: linear-gradient(135deg, #0f172a, #020617);
+  padding: 24px 32px;
+}
+nav a {
+  color: #e5e7eb;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid #1f2937;
+  background: rgba(15,23,42,0.8);
+  text-decoration: none;
+  margin-right: 12px;
+}
+main {
+  max-width: 960px;
+  margin: 32px auto;
+  padding: 0 16px;
+}
+.panel {
+  background: rgba(15,23,42,0.95);
+  padding: 24px;
+  border-radius: 18px;
+  margin-bottom: 24px;
+}
+h2 { color: #38bdf8; }
+table {
+  width: 100%; border-collapse: collapse; margin-top: 14px;
+}
+th, td {
+  padding: 10px 8px; border-bottom: 1px solid #1f2937;
+}
+th {
+  background: #020617; color: #38bdf8; text-align: left;
+}
+tr:nth-child(even) td {
+  background: rgba(15,23,42,0.7);
+}
+footer {
+  text-align: center;
+  padding
