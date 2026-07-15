@@ -2,710 +2,262 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Quantum Origami – Standard Model from Sheets</title>
+  <title>Quantum Origami – Unified Framework</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- MathJax -->
-  <script>
-    window.MathJax = {
-      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
-      svg: { fontCache: 'global' }
-    };
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet" />
 
-  <!-- Three.js -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/controls/OrbitControls.js"></script>
+  <!-- DataTables CSS -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
 
-  <style>
-    :root {
-      --bg: #05060a;
-      --bg-alt: #10121a;
-      --accent: #4fd1c5;
-      --accent-soft: rgba(79, 209, 197, 0.15);
-      --text: #f7fafc;
-      --muted: #a0aec0;
-      --border: #2d3748;
-      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: var(--font-main);
-      background: radial-gradient(circle at top, #1a202c 0, #05060a 55%);
-      color: var(--text);
-    }
-    .layout {
-      display: grid;
-      grid-template-columns: 280px minmax(0, 1fr);
-      min-height: 100vh;
-    }
-    @media (max-width: 900px) {
-      .layout { grid-template-columns: minmax(0, 1fr); }
-    }
-    .sidebar {
-      background: rgba(5, 6, 10, 0.95);
-      border-right: 1px solid var(--border);
-      padding: 1rem 1.25rem;
-      display: flex;
-      flex-direction: column;
-    }
-    .sidebar h1 { margin: 0.5rem 0 0.25rem; font-size: 1.3rem; }
-    .subtitle { margin: 0; font-size: 0.85rem; color: var(--muted); }
-    .toc h2 { font-size: 0.95rem; margin-top: 1rem; margin-bottom: 0.5rem; }
-    .toc ul { list-style: none; padding: 0; margin: 0; }
-    .toc li { margin-bottom: 0.25rem; }
-    .toc button {
-      width: 100%;
-      text-align: left;
-      background: transparent;
-      border: 1px solid transparent;
-      color: var(--text);
-      padding: 0.25rem 0.25rem;
-      border-radius: 0.35rem;
-      font-size: 0.85rem;
-      cursor: pointer;
-      transition: all 0.15s ease;
-    }
-    .toc button:hover,
-    .toc button.active {
-      border-color: var(--accent);
-      background: var(--accent-soft);
-    }
-    .sidebar-footer {
-      margin-top: auto;
-      font-size: 0.8rem;
-      color: var(--muted);
-    }
-    .content { padding: 1.5rem 1.75rem; }
-    .section { display: none; animation: fadeIn 0.25s ease-out; }
-    .section.active { display: block; }
-    .section h2 { margin-top: 0; margin-bottom: 0.75rem; font-size: 1.5rem; }
-    .card {
-      background: var(--bg-alt);
-      border-radius: 0.75rem;
-      border: 1px solid var(--border);
-      padding: 1rem 1.25rem;
-      margin-top: 1rem;
-    }
-    .equation { text-align: center; margin: 0.75rem 0; }
-    .table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.9rem;
-      margin-top: 0.5rem;
-    }
-    .table thead { background: rgba(15, 23, 42, 0.9); }
-    .table th, .table td {
-      padding: 0.4rem 0.5rem;
-      border-bottom: 1px solid var(--border);
-    }
-    .table tbody tr { transition: background 0.15s ease; }
-    .table tbody tr:hover { background: rgba(31, 41, 55, 0.7); }
-    .controls {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      margin-top: 0.5rem;
-    }
-    .controls label {
-      font-size: 0.85rem;
-      color: var(--muted);
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
-    }
-    input[type="range"] { width: 180px; }
-    select {
-      background: #020305;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      color: var(--text);
-      padding: 0.25rem 0.5rem;
-    }
-    .slider-value { margin-top: 0.25rem; font-size: 0.85rem; color: var(--muted); }
-    .metric { margin-top: 0.5rem; font-size: 0.95rem; color: var(--accent); }
-    #scene-container {
-      width: 100%;
-      height: 360px;
-      border-radius: 0.75rem;
-      border: 1px solid var(--border);
-      background: #020305;
-      margin-top: 0.5rem;
-    }
-    #theta-canvas {
-      margin-top: 0.75rem;
-      border-radius: 0.5rem;
-      border: 1px solid var(--border);
-      background: #020305;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(4px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-  </style>
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <div class="layout">
-    <aside class="sidebar">
-      <h1>Quantum Origami</h1>
-      <p class="subtitle">Rigid-Fold Geometry & Standard Model</p>
+  <header class="site-header">
+    <div class="logo">Quantum Origami</div>
+    <nav class="nav">
+      <a href="#overview">Overview</a>
+      <a href="#papers">Papers & Tables</a>
+      <a href="#graphs">Graphs</a>
+      <a href="#interactive">Interactive Playground</a>
+    </nav>
+  </header>
 
-      <nav class="toc">
-        <h2>Contents</h2>
-        <ul>
-          <li><button data-target="section-abstract">Abstract & Core Equation</button></li>
-          <li><button data-target="section-3d">3D Origami Universe</button></li>
-          <li><button data-target="section-symbols">Master Symbol Table</button></li>
-          <li><button data-target="section-gr-origami">GR ↔ Origami Dictionary</button></li>
-          <li><button data-target="section-sm">Standard Model from Motifs</button></li>
-          <li><button data-target="section-entropy">Entropy & Dimension</button></li>
-        </ul>
-      </nav>
+  <section id="hero" class="hero">
+    <div class="hero-content">
+      <h1>Quantum Origami: Geometric Folding Meets Quantum Physics</h1>
+      <p>
+        A unified, concise synthesis of all papers—geometry, modular structures, and quantum frameworks—presented as an interactive, colorful site.
+      </p>
+      <button id="scrollToOverview" class="btn-primary">Explore the Framework</button>
+    </div>
+  </section>
 
-      <footer class="sidebar-footer">
-        <p>Based on: “Quantum Origami: A Rigid-Fold Geometric Framework for Curvature, Mass, Cosmology, Forces, and the Standard Model” (2026). </p>
-      </footer>
-    </aside>
+  <main>
+    <!-- Overview section -->
+    <section id="overview" class="section">
+      <h2>Unified Overview</h2>
+      <p>
+        This site aggregates the core ideas from all your papers into one coherent narrative:
+        geometric folding rules, modular origami structures, and their proposed connections
+        to quantum states, operators, and possibly quantum gravity.
+      </p>
+      <p>
+        Use the tabs, tables, and graphs below to navigate the full structure—each element
+        is designed to be extendable with your detailed LaTeX‑level content.
+      </p>
+    </section>
 
-    <main class="content">
+    <!-- Papers & tables section -->
+    <section id="papers" class="section">
+      <h2>Papers & Active Tables</h2>
 
-      <!-- Abstract & core equation -->
-      <section id="section-abstract" class="section active">
-        <h2>Abstract & Core Equation</h2>
-        <div class="card">
-          <p>
-            Flat sheets in $\mathbb{R}^2$ with crease patterns and signed fold angles are mapped into folded
-            modules in $\mathbb{R}^3$ and assembled by rigid motions. The global configuration 
-          </p>
-          <p class="equation">
-            $$ C(t) = \bigcup_{i=1}^N T_i(t)\big(F_i(t)(P_i)\big) $$
-          </p>
-          <p>
-            provides a universal representation of rigid modular origami and a geometric model of the universe.
-            Quantum-origami configurations are dense in the space of compact, connected, piecewise-smooth
-            surfaces under the Hausdorff metric, and the crease-density field $P_{\text{crease}}(x)$ plays the role
-            of curvature, energy, mass, and gravity. 
-          </p>
+      <div class="tabs">
+        <button class="tab-button active" data-tab="paper1">Paper 1 – Geometric Folding</button>
+        <button class="tab-button" data-tab="paper2">Paper 2 – Modular Structures</button>
+        <button class="tab-button" data-tab="paper3">Paper 3 – Quantum Framework</button>
+      </div>
+
+      <div id="paper1" class="tab-content active">
+        <h3>Paper 1 – Geometric Folding Rules</h3>
+        <p>
+          Summary placeholder: insert your concise abstract here, e.g. axioms for crease patterns,
+          mapping folds to transformations, etc.
+        </p>
+        <table id="tablePaper1" class="display">
+          <thead>
+            <tr>
+              <th>Fold ID</th>
+              <th>Type</th>
+              <th>Angle (deg)</th>
+              <th>Associated Operator</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>F1</td>
+              <td>Mountain</td>
+              <td>90</td>
+              <td>\(\hat{U}_1\)</td>
+            </tr>
+            <tr>
+              <td>F2</td>
+              <td>Valley</td>
+              <td>45</td>
+              <td>\(\hat{U}_2\)</td>
+            </tr>
+            <tr>
+              <td>F3</td>
+              <td>Twist</td>
+              <td>120</td>
+              <td>\(\hat{U}_3\)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="paper2" class="tab-content">
+        <h3>Paper 2 – Modular Origami Structures</h3>
+        <p>
+          Summary placeholder: insert your concise abstract here, e.g. graph‑like connectivity,
+          polyhedral modules, and combinatorial properties.
+        </p>
+        <table id="tablePaper2" class="display">
+          <thead>
+            <tr>
+              <th>Module</th>
+              <th>Vertices</th>
+              <th>Edges</th>
+              <th>Symmetry Group</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Tetrahedral</td>
+              <td>4</td>
+              <td>6</td>
+              <td>\(A_4\)</td>
+            </tr>
+            <tr>
+              <td>Cube</td>
+              <td>8</td>
+              <td>12</td>
+              <td>\(S_4\)</td>
+            </tr>
+            <tr>
+              <td>Icosahedron</td>
+              <td>12</td>
+              <td>30</td>
+              <td>\(A_5\)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="paper3" class="tab-content">
+        <h3>Paper 3 – Quantum Origami Framework</h3>
+        <p>
+          Summary placeholder: insert your concise abstract here, e.g. Hilbert space of fold states,
+          operators as crease transformations, and possible links to quantum gravity.
+        </p>
+        <table id="tablePaper3" class="display">
+          <thead>
+            <tr>
+              <th>State Label</th>
+              <th>Configuration</th>
+              <th>Energy Level</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>\(|\psi_1\rangle\)</td>
+              <td>Single fold</td>
+              <td>1.0</td>
+              <td>Base state</td>
+            </tr>
+            <tr>
+              <td>\(|\psi_2\rangle\)</td>
+              <td>Double fold</td>
+              <td>2.3</td>
+              <td>Interference pattern</td>
+            </tr>
+            <tr>
+              <td>\(|\psi_3\rangle\)</td>
+              <td>Modular cluster</td>
+              <td>4.7</td>
+              <td>Collective mode</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Graphs section -->
+    <section id="graphs" class="section">
+      <h2>Graphs from All Papers</h2>
+      <p>
+        These example plots show how you can visualize relationships between fold parameters,
+        modular complexity, and quantum‑like quantities. Replace the data with your real results.
+      </p>
+
+      <div class="charts-grid">
+        <div class="chart-card">
+          <h3>Fold Angle vs. Operator Norm (Paper 1)</h3>
+          <canvas id="chartPaper1"></canvas>
         </div>
-      </section>
-
-      <!-- 3D interaction -->
-      <section id="section-3d" class="section">
-        <h2>3D Origami Universe: Sheets, Creases, and Density</h2>
-        <div class="card">
-          <p>
-            Below, sheets $P_i$ are shown as planes; creases are lines; fold angles $\Theta_{i,m}$ bend modules
-            into $\mathbb{R}^3$. Crease density $P_{\text{crease}}(x)$ is visualized as a scalar field—brighter regions
-            correspond to higher curvature/mass. 
-          </p>
-
-          <div id="scene-container"></div>
-
-          <div class="controls">
-            <label>
-              Number of sheets $N$
-              <input type="range" id="sheets-slider" min="1" max="6" value="3" />
-            </label>
-            <label>
-              Max fold angle $|\Theta|_{\max}$ (deg)
-              <input type="range" id="theta-slider" min="0" max="180" value="60" />
-            </label>
-            <label>
-              Crease density scale
-              <input type="range" id="density-slider" min="0" max="1" step="0.05" value="0.5" />
-            </label>
-          </div>
-          <div class="slider-value">
-            $N = $<span id="sheets-value">3</span>,
-            $|\Theta|_{\max} = $<span id="theta-value">60</span>°,
-            density scale = <span id="density-value">0.50</span>
-          </div>
-          <div class="metric">
-            Qualitative $P_{\text{crease}}(x)$ and $g(x) \sim -\nabla P_{\text{crease}}(x)$ shown via brightness and “pull” toward folded regions. 
-          </div>
+        <div class="chart-card">
+          <h3>Module Complexity vs. Symmetry (Paper 2)</h3>
+          <canvas id="chartPaper2"></canvas>
         </div>
-      </section>
-
-      <!-- Master symbol table -->
-      <section id="section-symbols" class="section">
-        <h2>Master Symbol Table</h2>
-        <div class="card">
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Symbol</th>
-                <th>Mathematical Meaning</th>
-                <th>Physical / Intuitive Meaning</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>$P_i$</td>
-                <td>Compact region in $\mathbb{R}^2$</td>
-                <td>Flat sheet of paper (sheet $i$)</td>
-              </tr>
-              <tr>
-                <td>$C_i$</td>
-                <td>Set of crease lines on $P_i$</td>
-                <td>All folds drawn on sheet $i$</td>
-              </tr>
-              <tr>
-                <td>$l_{i,m}$</td>
-                <td>Individual crease on $P_i$</td>
-                <td>$m$-th fold line on sheet $i$</td>
-              </tr>
-              <tr>
-                <td>$A_{i,m}$</td>
-                <td>Fold angle magnitude</td>
-                <td>How much the crease bends</td>
-              </tr>
-              <tr>
-                <td>$T_{i,m}$</td>
-                <td>Fold sign $\in \{\pm 1\}$</td>
-                <td>Mountain ($-1$) or valley ($+1$)</td>
-              </tr>
-              <tr>
-                <td>$\Theta_{i,m}$</td>
-                <td>Signed fold angle</td>
-                <td>Direction + amount of the fold</td>
-              </tr>
-              <tr>
-                <td>$F_i$</td>
-                <td>Folding map $P_i \to \mathbb{R}^3$</td>
-                <td>How sheet $i$ moves from flat to folded 3D</td>
-              </tr>
-              <tr>
-                <td>$M_i$</td>
-                <td>$F_i(P_i)$</td>
-                <td>Folded 3D module from sheet $i$</td>
-              </tr>
-              <tr>
-                <td>$T_i$</td>
-                <td>Rigid motion in $\mathbb{R}^3$</td>
-                <td>Placement of module $i$ in space</td>
-              </tr>
-              <tr>
-                <td>$P_{\text{crease}}(x)$</td>
-                <td>Crease density at $x$</td>
-                <td>Folds per volume near $x$</td>
-              </tr>
-              <tr>
-                <td>$E_{i,m}$</td>
-                <td>Energy of crease $m$</td>
-                <td>Energy stored in that fold</td>
-              </tr>
-              <tr>
-                <td>$M_i$</td>
-                <td>Effective mass of motif $i$</td>
-                <td>How “heavy” a folded module is</td>
-              </tr>
-              <tr>
-                <td>$Q_i$</td>
-                <td>$\sum_m \mathrm{sgn}(\Theta_{i,m})$</td>
-                <td>Net charge-like sign of motif $i$</td>
-              </tr>
-              <tr>
-                <td>$S_{\text{geom}}$</td>
-                <td>$\sum_{i,m} |\Theta_{i,m}|$</td>
-                <td>Total geometric entropy (total folding)</td>
-              </tr>
-              <tr>
-                <td>$R$</td>
-                <td>Effective dimension</td>
-                <td>How many dimensions the geometry “feels like”</td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="chart-card">
+          <h3>Energy Spectrum of Fold States (Paper 3)</h3>
+          <canvas id="chartPaper3"></canvas>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- GR ↔ Origami -->
-      <section id="section-gr-origami" class="section">
-        <h2>General Relativity ↔ Quantum Origami</h2>
-        <div class="card">
-          <table class="table">
-            <thead>
-              <tr>
-                <th>GR quantity</th>
-                <th>Origami analogue</th>
-                <th>Interpretation</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Ricci scalar $R$</td>
-                <td>$P_{\text{crease}}(x)$</td>
-                <td>Curvature density</td>
-              </tr>
-              <tr>
-                <td>Stress-energy $T_{\mu\nu}$</td>
-                <td>$E_{i,m} = k_m |\Theta_{i,m}|$</td>
-                <td>Energy from folds</td>
-              </tr>
-              <tr>
-                <td>Mass-energy $mc^2$</td>
-                <td>$\sum_m k_m |\Theta_{i,m}|$</td>
-                <td>Mass from fold angles</td>
-              </tr>
-              <tr>
-                <td>Gravity $\sim \nabla R$</td>
-                <td>$g(x) \sim -\nabla P_{\text{crease}}(x)$</td>
-                <td>Attraction to folds</td>
-              </tr>
-            </tbody>
-          </table>
-          <p>
-            Gravity emerges from gradients of crease density: $g(x) \propto -\nabla P_{\text{crease}}(x)$.
-            Objects tend to move toward regions with more folds, providing an origami analogue of Einstein’s
-            geometric description. 
-          </p>
+    <!-- Interactive playground -->
+    <section id="interactive" class="section">
+      <h2>Interactive Possibilities</h2>
+      <p>
+        Use the controls below to explore a toy “quantum origami” state space: choose fold types,
+        adjust angles, and see how a simple visualization responds. You can later connect this to
+        your formal mathematical model.
+      </p>
+
+      <div class="playground">
+        <div class="controls">
+          <label>
+            Fold type:
+            <select id="foldType">
+              <option value="mountain">Mountain</option>
+              <option value="valley">Valley</option>
+              <option value="twist">Twist</option>
+            </select>
+          </label>
+
+          <label>
+            Angle (deg):
+            <input type="range" id="foldAngle" min="0" max="180" value="90" />
+            <span id="foldAngleValue">90</span>
+          </label>
+
+          <label>
+            Modules:
+            <input type="number" id="moduleCount" min="1" max="20" value="4" />
+          </label>
+
+          <button id="simulateBtn" class="btn-secondary">Simulate State</button>
         </div>
-      </section>
 
-      <!-- Standard Model from motifs -->
-      <section id="section-sm" class="section">
-        <h2>Standard Model from Fold Motifs</h2>
-        <div class="card">
-          <p>
-            Each module $M_i$ with angle vector $\Theta_i$ is interpreted as a particle-like motif. Define 
-          </p>
-          <p class="equation">
-            $$ Q_i = \sum_m \mathrm{sgn}(\Theta_{i,m}), \qquad
-               M_i \propto \sum_m k_m |\Theta_{i,m}|. $$
-          </p>
-          <p>
-            Charge comes from the signs of the folds; mass comes from how sharply the folds bend. The core
-            configuration $C(t)$ plus the motif map $(\Theta_i \mapsto Q_i, M_i)$ generates the Standard Model
-            table below. 
-          </p>
+        <div class="playground-output">
+          <h3>State Preview</h3>
+          <pre id="stateOutput"></pre>
 
-          <table class="table" id="sm-table">
-            <thead>
-              <tr>
-                <th>Particle</th>
-                <th>Motif</th>
-                <th>$Q_i$</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Electron $e^-$</td>
-                <td>Single negative fold</td>
-                <td>$-1$</td>
-                <td>Simple negative motif</td>
-              </tr>
-              <tr>
-                <td>Positron $e^+$</td>
-                <td>Angle-reversed electron</td>
-                <td>$+1$</td>
-                <td>Antimatter motif</td>
-              </tr>
-              <tr>
-                <td>Neutrino $\nu$</td>
-                <td>Nearly flat motif</td>
-                <td>$0$</td>
-                <td>Very small angles</td>
-              </tr>
-              <tr>
-                <td>Up quark $u$</td>
-                <td>Three-fold motif</td>
-                <td>$+2/3$</td>
-                <td>Fractional charge pattern</td>
-              </tr>
-              <tr>
-                <td>Down quark $d$</td>
-                <td>Three-fold motif</td>
-                <td>$-1/3$</td>
-                <td>Fractional charge pattern</td>
-              </tr>
-              <tr>
-                <td>Photon $\gamma$</td>
-                <td>Oscillatory fold</td>
-                <td>$0$</td>
-                <td>$\Theta(t) = A \sin(\omega t)$</td>
-              </tr>
-              <tr>
-                <td>Gluon $g$</td>
-                <td>Locking motif</td>
-                <td>$0$</td>
-                <td>Binds quark folds</td>
-              </tr>
-              <tr>
-                <td>$W^\pm$</td>
-                <td>High-angle motif</td>
-                <td>$\pm 1$</td>
-                <td>Reconfiguration motif</td>
-              </tr>
-              <tr>
-                <td>$Z^0$</td>
-                <td>High-angle motif</td>
-                <td>$0$</td>
-                <td>Neutral reconfiguration</td>
-              </tr>
-              <tr>
-                <td>Higgs $H$</td>
-                <td>Stiffness-modulating motif</td>
-                <td>$0$</td>
-                <td>Changes $k_m$</td>
-              </tr>
-            </tbody>
-          </table>
-
-          <div class="controls">
-            <label>
-              Example motif: number of folds $K_i$
-              <input type="range" id="folds-slider" min="1" max="6" value="3" />
-            </label>
-            <label>
-              Fraction of positive folds
-              <input type="range" id="positive-slider" min="0" max="1" step="0.1" value="0.5" />
-            </label>
-          </div>
-          <div class="slider-value">
-            Computed $Q_i = $<span id="Qi-value">0</span>,
-            normalized mass $\tilde{M}_i \approx $<span id="Mi-value">0.00</span>
-          </div>
+          <h3>Interactive Diagram</h3>
+          <canvas id="playgroundCanvas" width="400" height="300"></canvas>
         </div>
-      </section>
+      </div>
+    </section>
+  </main>
 
-      <!-- Entropy & dimension -->
-      <section id="section-entropy" class="section">
-        <h2>Entropy, Dimension, and Master Evolution</h2>
-        <div class="card">
-          <p>
-            Geometric entropy and effective dimension obey 
-          </p>
-          <p class="equation">
-            $$ S_{\text{geom}}(t) = \sum_{i,m} |\Theta_{i,m}(t)|, \qquad
-               S_{\text{geom}}(t)\, R(t) = \text{constant}. $$
-          </p>
+  <footer class="site-footer">
+    <p>Quantum Origami – unified synthesis of all papers · MIT License · GitHub‑ready structure</p>
+  </footer>
 
-          <div class="controls">
-            <label>
-              Effective dimension $R(t)$
-              <input type="range" id="R-slider" min="1" max="11" value="11" />
-            </label>
-          </div>
-          <div class="slider-value">
-            $R(t) = $<span id="R-value">11</span>
-          </div>
-          <div class="metric">
-            Normalized $S_{\text{geom}}(t) \approx $<span id="Sgeom-value">1.00</span>
-          </div>
+  <!-- jQuery (for DataTables) -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <!-- DataTables JS -->
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
-          <p class="equation">
-            $$ \frac{d\Theta_{i,m}}{dt} = -H\,\Theta_{i,m} - \frac{\partial V_{\text{int}}}{\partial \Theta_{i,m}} + \eta_{i,m}(t). $$
-          </p>
-          <canvas id="theta-canvas" width="600" height="220"></canvas>
-        </div>
-      </section>
-
-    </main>
-  </div>
-
-  <script>
-    // Navigation
-    const sections = document.querySelectorAll(".section");
-    const tocButtons = document.querySelectorAll(".toc button");
-    tocButtons.forEach(btn => {
-      btn.addEventListener("click", () => {
-        const target = btn.dataset.target;
-        tocButtons.forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        sections.forEach(sec => sec.classList.toggle("active", sec.id === target));
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      });
-    });
-    document.querySelector('[data-target="section-abstract"]').classList.add("active");
-
-    // 3D scene: sheets, creases, density
-    const container = document.getElementById("scene-container");
-    let scene, camera, renderer, controls;
-    let sheetMeshes = [], densityPoints = [];
-
-    function initScene() {
-      scene = new THREE.Scene();
-      scene.background = new THREE.Color(0x020305);
-
-      const width = container.clientWidth;
-      const height = container.clientHeight;
-      camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
-      camera.position.set(0, 3, 6);
-
-      renderer = new THREE.WebGLRenderer({ antialias: true });
-      renderer.setSize(width, height);
-      container.appendChild(renderer.domElement);
-
-      controls = new THREE.OrbitControls(camera, renderer.domElement);
-      controls.enableDamping = true;
-
-      const light = new THREE.PointLight(0xffffff, 1.2);
-      light.position.set(5, 5, 5);
-      scene.add(light);
-      scene.add(new THREE.AmbientLight(0x404040));
-
-      animate();
-    }
-
-    function clearScene() {
-      sheetMeshes.forEach(m => scene.remove(m));
-      densityPoints.forEach(p => scene.remove(p));
-      sheetMeshes = [];
-      densityPoints = [];
-    }
-
-    function buildOrigami(N, thetaMaxDeg, densityScale) {
-      clearScene();
-
-      const sheetGeom = new THREE.PlaneGeometry(1.5, 1.0);
-      const creaseMaterial = new THREE.LineBasicMaterial({ color: 0x4fd1c5 });
-
-      for (let i = 0; i < N; i++) {
-        const thetaRad = (thetaMaxDeg * (0.3 + 0.7 * Math.random())) * Math.PI / 180;
-        const sign = Math.random() < 0.5 ? -1 : 1;
-
-        const mat = new THREE.MeshStandardMaterial({
-          color: sign > 0 ? 0x4a5568 : 0x2d3748,
-          side: THREE.DoubleSide,
-          metalness: 0.1,
-          roughness: 0.6
-        });
-
-        const sheet = new THREE.Mesh(sheetGeom, mat);
-        sheet.position.set((i - (N - 1) / 2) * 1.7, 0, 0);
-        sheet.rotation.y = thetaRad * sign;
-        sheetMeshes.push(sheet);
-        scene.add(sheet);
-
-        const creaseGeom = new THREE.BufferGeometry().setFromPoints([
-          new THREE.Vector3(sheet.position.x, -0.5, 0),
-          new THREE.Vector3(sheet.position.x, 0.5, 0)
-        ]);
-        const crease = new THREE.Line(creaseGeom, creaseMaterial);
-        scene.add(crease);
-
-        const density = Math.abs(thetaRad) * densityScale;
-        const pointGeom = new THREE.SphereGeometry(0.05 + 0.1 * density, 16, 16);
-        const pointMat = new THREE.MeshBasicMaterial({
-          color: new THREE.Color().setHSL(0.5 - 0.4 * density, 0.7, 0.5 + 0.3 * density)
-        });
-        const point = new THREE.Mesh(pointGeom, pointMat);
-        point.position.set(sheet.position.x, 0, -0.3);
-        densityPoints.push(point);
-        scene.add(point);
-      }
-    }
-
-    function animate() {
-      requestAnimationFrame(animate);
-      controls.update();
-      renderer.render(scene, camera);
-    }
-
-    initScene();
-
-    const sheetsSlider = document.getElementById("sheets-slider");
-    const thetaSlider = document.getElementById("theta-slider");
-    const densitySlider = document.getElementById("density-slider");
-    const sheetsValue = document.getElementById("sheets-value");
-    const thetaValue = document.getElementById("theta-value");
-    const densityValue = document.getElementById("density-value");
-
-    function updateOrigami() {
-      const N = parseInt(sheetsSlider.value, 10);
-      const thetaMax = parseInt(thetaSlider.value, 10);
-      const densityScale = parseFloat(densitySlider.value);
-      sheetsValue.textContent = N;
-      thetaValue.textContent = thetaMax;
-      densityValue.textContent = densityScale.toFixed(2);
-      buildOrigami(N, thetaMax, densityScale);
-    }
-
-    sheetsSlider.addEventListener("input", updateOrigami);
-    thetaSlider.addEventListener("input", updateOrigami);
-    densitySlider.addEventListener("input", updateOrigami);
-    updateOrigami();
-
-    // Standard Model motif toy
-    const foldsSlider = document.getElementById("folds-slider");
-    const positiveSlider = document.getElementById("positive-slider");
-    const QiValue = document.getElementById("Qi-value");
-    const MiValue = document.getElementById("Mi-value");
-
-    function updateMotif() {
-      const K = parseInt(foldsSlider.value, 10);
-      const fracPos = parseFloat(positiveSlider.value);
-      const k_m = 1.0;
-
-      let Q = 0;
-      let M = 0;
-      for (let m = 0; m < K; m++) {
-        const isPos = Math.random() < fracPos;
-        const sign = isPos ? 1 : -1;
-        const theta = (0.3 + 0.7 * Math.random()) * Math.PI; // magnitude
-        Q += sign;
-        M += k_m * theta;
-      }
-      QiValue.textContent = Q.toFixed(0);
-      MiValue.textContent = (M / (K * Math.PI)).toFixed(2);
-    }
-
-    foldsSlider.addEventListener("input", updateMotif);
-    positiveSlider.addEventListener("input", updateMotif);
-    updateMotif();
-
-    // Entropy–dimension toy + angle evolution
-    const RSlider = document.getElementById("R-slider");
-    const RValue = document.getElementById("R-value");
-    const SgeomValue = document.getElementById("Sgeom-value");
-    const thetaCanvas = document.getElementById("theta-canvas");
-    const ctx = thetaCanvas.getContext("2d");
-
-    function updateEntropy() {
-      const R = parseInt(RSlider.value, 10);
-      RValue.textContent = R;
-      const constant = 11;
-      const S = constant / R;
-      SgeomValue.textContent = S.toFixed(2);
-      simulateTheta(S);
-    }
-
-    function simulateTheta(SgeomTarget) {
-      ctx.clearRect(0, 0, thetaCanvas.width, thetaCanvas.height);
-      const N = 4;
-      const steps = 200;
-      const dt = 0.05;
-      const H = 0.5;
-      const lambda = 1.0;
-      const sigma = 0.2;
-
-      let theta = Array.from({ length: N }, () => (Math.random() - 0.5) * Math.PI);
-
-      for (let i = 0; i < N; i++) {
-        ctx.beginPath();
-        for (let t = 0; t < steps; t++) {
-          const gradV = lambda * theta[i];
-          const noise = sigma * (Math.random() - 0.5);
-          const dtheta = -H * theta[i] - gradV + noise;
-          theta[i] += dtheta * dt;
-
-          const x = (t / (steps - 1)) * thetaCanvas.width;
-          const y = thetaCanvas.height / 2 - (theta[i] / Math.PI) * (thetaCanvas.height / 2 - 10);
-
-          if (t === 0) ctx.moveTo(x, y);
-          else ctx.lineTo(x, y);
-        }
-        ctx.strokeStyle = "#4fd1c5";
-        ctx.lineWidth = 1;
-        ctx.stroke();
-      }
-    }
-
-    RSlider.addEventListener("input", updateEntropy);
-    updateEntropy();
-  </script>
+  <!-- Custom JS -->
+  <script src="js/tables.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>
